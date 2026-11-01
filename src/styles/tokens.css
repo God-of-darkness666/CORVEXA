@@ -1,0 +1,207 @@
+/* ==========================================================================
+   CORVEXA — design tokens, reset & global canvas
+   ========================================================================== */
+
+:root {
+  /* — surfaces — */
+  --void: #03050c;
+  --midnight: #050a16;
+  --navy: #081124;
+  --panel: rgba(9, 17, 33, 0.62);
+  --panel-solid: #080f1f;
+
+  /* — light — */
+  --blue: #2f6bff;
+  --blue-soft: #5b8dff;
+  --cyan: #3ee8ff;
+  --cyan-dim: #1fb9d6;
+  --violet: #9a5cff;
+
+  /* — type — */
+  --text: #e9f1ff;
+  --text-soft: #c3d1e8;
+  --muted: #8b9cba;
+  --dim: #5d6c88;
+
+  /* — lines & glow — */
+  --line: rgba(126, 178, 255, 0.13);
+  --line-strong: rgba(126, 178, 255, 0.3);
+  --glass: linear-gradient(158deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.012));
+  --glow-cyan: 0 0 48px rgba(62, 232, 255, 0.28);
+  --glow-blue: 0 0 60px rgba(47, 107, 255, 0.32);
+
+  /* — fonts — */
+  --font-display: 'Sora Variable', 'Sora', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+
+  /* — geometry — */
+  --gutter: clamp(20px, 4vw, 64px);
+  --rail: clamp(0px, 31vw, 460px);
+  --radius-sm: 10px;
+  --radius: 18px;
+  --radius-lg: 26px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* — cursor — */
+  --mx: 50vw;
+  --my: 40vh;
+}
+
+/* — reset ------------------------------------------------------------------ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+  overflow-x: clip;
+}
+
+body {
+  min-height: 100vh;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text);
+  background-color: var(--void);
+  background-image:
+    radial-gradient(1100px 760px at 82% -8%, rgba(47, 107, 255, 0.22), transparent 62%),
+    radial-gradient(820px 640px at 2% 8%, rgba(62, 232, 255, 0.1), transparent 64%),
+    radial-gradient(1000px 900px at 92% 96%, rgba(154, 92, 255, 0.14), transparent 66%),
+    linear-gradient(180deg, #03050c 0%, #050a16 46%, #03050c 100%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+img,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.03;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  background: rgba(62, 232, 255, 0.28);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* — scrollbar -------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #04070f;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(62, 232, 255, 0.45), rgba(154, 92, 255, 0.45));
+  border-radius: 20px;
+  border: 2px solid #04070f;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(62, 232, 255, 0.7), rgba(154, 92, 255, 0.7));
+}
+
+/* — utilities -------------------------------------------------------------- */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.text-gradient {
+  background: linear-gradient(96deg, var(--cyan) 0%, var(--blue-soft) 46%, var(--violet) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
